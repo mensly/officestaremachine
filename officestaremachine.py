@@ -3,7 +3,8 @@
 # Original source by Joe Sabia and Aaron Rasmussen
 # http://theofficestaremachine.com/
 import random
-from flask import Flask, request
+import json
+from flask import Flask, Response, request
 app = Flask(__name__)
 
 emotion_to_key = {}
@@ -1277,7 +1278,10 @@ def get_video_url(emotion):
 
 @app.route('/', methods=['POST'])
 def office_stare():
-    return get_video_url(request.form['text'])
+    emotion = request.form['text']
+    url = get_video_url(emotion)
+    response = dict(text=url, response_type="in_channel")
+    return Response(json.dumps(response), mimetype='application/json')
 
 if __name__ == "__main__":
     app.run()
