@@ -3,6 +3,8 @@
 # Original source by Joe Sabia and Aaron Rasmussen
 # http://theofficestaremachine.com/
 import random
+from flask import Flask, request
+app = Flask(__name__)
 
 emotion_to_key = {}
 key_to_video = {}
@@ -1273,5 +1275,9 @@ def get_video_url(emotion):
         video_id = "H07zYvkNYL8"
     return "https://youtu.be/" + video_id
 
+@app.route('/', methods=['POST'])
+def office_stare():
+    return get_video_url(request.form['text'])
 
-
+if __name__ == "__main__":
+    app.run()
